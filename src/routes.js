@@ -3,30 +3,40 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import isAuth from './utils/isAuth';
 import { useUser } from "./providers/user"
 import Pages from './pages';
+import isPrivate from './utils/isPrivate';
 
 
 
 
 function Routes(){
-    const { user } = useUser()
-    const PrivateRoute = ({component: Component,isPrivate, ...rest})=>(
-        <Route {...rest} render ={props =>(
-            isAuth(user.token,isPrivate)?(
-                <Component {...props}/>
+    const PrivateRoute = ({component: Component,onlyAdmin, ...rest})=>(
+        <Route {...rest} render ={props =>{
+            let token = localStorage.getItem("token")
+            return isAuth(token)?(
+                isPrivate(onlyAdmin)?(
+                    <Component {...props}/>
+                ):(
+                    <Redirect to ={{pathname:"/home",state:{from: props.location}}}/>
+                )
             ):(
                 <Redirect to ={{pathname:'/',state:{from: props.location}}}/>
             )
-        )}/>
+        }}/>
     )
     
-    const PublicRoute = ({component: Component, ...rest})=>(
-        <Route {...rest} render ={props =>(
-            isAuth(user.token)?(
+    const PublicRoute = ({component: Component,onlyAdmin, ...rest})=>(
+        <Route {...rest} render ={props =>{
+            let token = localStorage.getItem("token")
+            return isAuth(token)?(
                 <Redirect to ={{pathname:"/home",state:{from: props.location}}}/>
             ):(
-                <Component {...props}/>
+                isPrivate(onlyAdmin)?(
+                    <Component {...props}/>
+                ):(
+                    <Redirect to ={{pathname:"/home",state:{from: props.location}}}/>
+                )
             )
-        )}/>
+        }}/>
     )
 
                 
@@ -36,8 +46,10 @@ function Routes(){
             <Switch>
                 <PublicRoute exact path="/" component={()=>(<Pages.Login />)}/>
                 <PrivateRoute exact path="/home" component={()=>(<Pages.Home />)}/>
-                <PrivateRoute exact path="/adicionar-vacina" isPrivate component={()=>(<Pages.AdicionarVacina />)}/>
+                <PrivateRoute exact path="/adicionar-vacina" onlyAdmin={true} component={()=>(<Pages.AdicionarVacina />)}/>
                 <PrivateRoute exact path="/adicionar-registro" component={()=>(<Pages.Registro />)}/>
+                <PrivateRoute exact path="/perfil" onlyAdmin={true} component={()=>(<Pages.Perfil />)}/>
+
                 <PrivateRoute path='*' component={NotFound}/>
             </Switch>
         </BrowserRouter>

@@ -1,20 +1,11 @@
-const isAuth = (token,isPrivate) => {
-    let perfil = localStorage.getItem("perfil")
+const isAuth = (token) => {
     if(token){
-        if(isPrivate ){
-            if(perfil==="admin"){
-                return true
-            } else {
-                return false
-            }
-        } else {
-            return true
-        }
-
+        return true
     } else {
+        console.log("login")
+
         return false
     }
-
 }
 
 export default isAuth

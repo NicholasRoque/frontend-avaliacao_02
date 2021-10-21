@@ -35,7 +35,7 @@ const Registro = () => {
         let registrosTable = []
         await registros.forEach(async (registro) => {
                 vacinaList.forEach(vacina => {
-                    if(vacina.idVacina==registro.idVacina){
+                    if(vacina.idVacina===registro.idVacina){
                         let r = {
                             idRegistro:registro.idRegistro,
                             data:registro.data,
@@ -78,7 +78,7 @@ const Registro = () => {
         loadVacinas()
 
     }, [])
-    
+
     useEffect(() => {
         loadRegistros()
     }, [vacinaList])
@@ -105,6 +105,7 @@ const Registro = () => {
                             ))}
                             
                         </Form.Select>
+                        <br />
                         <div className="d-grid gap-2">
                             <Button variant="primary" type="submit">Adicionar</Button>
                         </div>
