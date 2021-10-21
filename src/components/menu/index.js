@@ -7,10 +7,11 @@ const Menu = () => {
     const { user } = useUser()
 
     const history = useHistory();
-    console.log(user)
+    const redirectAdicionarVacina = () => history.push("/adicionar-vacina")
 
     const redirectHome = () => history.push("/home")
-    const redirectAdicionarVacina = () => history.push("/adicionar-vacina")
+    const redirectAdicionarRegistro = () => history.push("/adicionar-registro")
+
 
 
     return (
@@ -26,6 +27,8 @@ const Menu = () => {
                     {user.perfil==="admin" && 
                         <NavDropdown.Item eventKey="4.2" onClick={redirectAdicionarVacina}>Adicionar vacina</NavDropdown.Item>
                     }
+                    <NavDropdown.Item eventKey="4.3" onClick={redirectAdicionarRegistro}>Adicionar registro</NavDropdown.Item>
+
                 </NavDropdown>
             </center>
         </Nav>

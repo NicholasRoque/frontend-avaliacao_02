@@ -37,6 +37,7 @@ function Routes(){
                 <PublicRoute exact path="/" component={()=>(<Pages.Login />)}/>
                 <PrivateRoute exact path="/home" component={()=>(<Pages.Home />)}/>
                 <PrivateRoute exact path="/adicionar-vacina" isPrivate component={()=>(<Pages.AdicionarVacina />)}/>
+                <PrivateRoute exact path="/adicionar-registro" component={()=>(<Pages.Registro />)}/>
                 <PrivateRoute path='*' component={NotFound}/>
             </Switch>
         </BrowserRouter>
