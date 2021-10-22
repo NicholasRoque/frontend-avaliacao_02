@@ -6,6 +6,7 @@ import api from '../../../utils/api';
 import "./index.css"
 
 const AdicionarVacina = () => {
+    api.defaults.headers.Authorization = `Bearer ${localStorage.getItem("token")}`
 
     const [vacina, setVacina] = useState({ nome: "" })
     const [vacinaList, setVacinaList] = useState([])

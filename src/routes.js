@@ -49,6 +49,7 @@ function Routes(){
                 <PrivateRoute exact path="/adicionar-vacina" onlyAdmin={true} component={()=>(<Pages.AdicionarVacina />)}/>
                 <PrivateRoute exact path="/adicionar-registro" component={()=>(<Pages.Registro />)}/>
                 <PrivateRoute exact path="/perfil" onlyAdmin={true} component={()=>(<Pages.Perfil />)}/>
+                <PrivateRoute exact path="/meus-dados"  component={()=>(<Pages.Dados />)}/>
 
                 <PrivateRoute path='*' component={NotFound}/>
             </Switch>

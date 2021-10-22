@@ -5,5 +5,5 @@ const api = Axios.create({
     baseURL:API_BASE_URL
 })
 
-api.defaults.headers.Authorization = `Bearer ${token}`
+
 export default api;

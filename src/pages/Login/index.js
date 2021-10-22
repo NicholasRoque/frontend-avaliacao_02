@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { useHistory } from "react-router-dom";
 import { Button, Form, Container } from 'react-bootstrap';
 
@@ -8,6 +8,7 @@ import "./index.css"
 
 
 const Login = () => {
+    api.defaults.headers.Authorization = `Bearer ${localStorage.getItem("token")}`
     const history = useHistory();
     const redirectHome = () => history.push("/home")
     const { user, setUser } = useUser()
@@ -32,11 +33,13 @@ const Login = () => {
 
             setUser({token:token,perfil:perfil,idUsuario:idUsuario})
             redirectHome()
+            
         }).catch(err => {
             let errors = [...err.response.data.error]
             console.log(errors)
         })
     }
+
     return (
         <Container id="login" fluid>
             

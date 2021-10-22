@@ -5,6 +5,7 @@ import api from '../../../utils/api';
 import "./index.css"
 
 const Registro = () => {
+    api.defaults.headers.Authorization = `Bearer ${localStorage.getItem("token")}`
 
     const [registro, setRegistro] = useState({ data: "", idVacina: "" })
     const [registroList, setRegistroList] = useState([])
@@ -96,7 +97,7 @@ const Registro = () => {
                     <Form id="adicionar-registro-form" onSubmit={handleAdicionarRegistro}>
                         <Form.Group className="mb-3" controlId="registro">
                             <Form.Label>Data</Form.Label>
-                            <Form.Control type="date" name="data" value={registro.nome} onChange={handleChange} placeholder="Data do registro" />
+                            <Form.Control type="date" name="data"  value={registro.nome} onChange={handleChange} placeholder="Data do registro" />
                         </Form.Group>
                         <Form.Select aria-label="" name="idVacina" required onChange={handleChange}>
                             <option disabled selected value="">Selecione uma vacina</option>

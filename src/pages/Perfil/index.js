@@ -7,6 +7,7 @@ import "./index.css"
 const Perfil = () => {
     const [usuarios, setUsuarios] = useState([])
     const [showTable, setShowTable] = useState(false)
+    api.defaults.headers.Authorization = `Bearer ${localStorage.getItem("token")}`
 
 
     const handleMudarPerfil = async (perfil,idUsuario) => {
