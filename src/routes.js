@@ -45,6 +45,7 @@ function Routes(){
         <BrowserRouter>
             <Switch>
                 <PublicRoute exact path="/" component={()=>(<Pages.Login />)}/>
+                <PublicRoute exact path="/cadastro" component={()=>(<Pages.Cadastro />)}/>
                 <PrivateRoute exact path="/home" component={()=>(<Pages.Home />)}/>
                 <PrivateRoute exact path="/adicionar-vacina" onlyAdmin={true} component={()=>(<Pages.AdicionarVacina />)}/>
                 <PrivateRoute exact path="/adicionar-registro" component={()=>(<Pages.Registro />)}/>

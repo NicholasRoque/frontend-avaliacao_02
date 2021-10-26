@@ -1,3 +1,4 @@
+import Cadastro from "./Cadastro";
 import Dados from "./Dados";
 import Home from "./Home";
 import Login from "./Login";
@@ -6,5 +7,7 @@ import AdicionarVacina from "./Vacina/AdicionarVacina";
 import Registro from "./Vacina/Registro";
 
 
-const Pages = {Login,Home,AdicionarVacina,Registro,Perfil,Dados}
+
+
+const Pages = {Login,Home,AdicionarVacina,Registro,Perfil,Dados,Cadastro}
 export default Pages
