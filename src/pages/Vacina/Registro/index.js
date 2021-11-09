@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Container, Col, Form, Button, Table } from 'react-bootstrap';
 import Menu from '../../../components/menu';
 import api from '../../../utils/api';
 import "./index.css"
@@ -10,7 +9,7 @@ const Registro = () => {
     const [registro, setRegistro] = useState({ data: "", idVacina: "" })
     const [registroList, setRegistroList] = useState([])
     const [vacinaList, setVacinaList] = useState([])
-    const [showTable, setShowTable] = useState(false)
+    const [showtable, setShowtable] = useState(false)
 
 
     const handleAdicionarRegistro = async (e) => {
@@ -23,33 +22,33 @@ const Registro = () => {
             console.log(errors)
         })
     }
-    
+
     const loadRegistros = async () => {
         await api.get("/registro/list").then(async (res) => {
-            await loadRegistroTable(res.data)
+            await loadRegistrotable(res.data)
         }).catch(err => {
             let errors = [...err.response.data.error]
             console.log(errors)
         })
     }
-    const loadRegistroTable = async (registros) => {
-        let registrosTable = []
+    const loadRegistrotable = async (registros) => {
+        let registrostable = []
         await registros.forEach(async (registro) => {
-                vacinaList.forEach(vacina => {
-                    if(vacina.idVacina===registro.idVacina){
-                        let r = {
-                            idRegistro:registro.idRegistro,
-                            data:registro.data,
-                            idVacina:vacina.idVacina,
-                            nomeVacina:vacina.nome
-                        }
-                        registrosTable.push(r)
+            vacinaList.forEach(vacina => {
+                if (vacina.idVacina === registro.idVacina) {
+                    let r = {
+                        idRegistro: registro.idRegistro,
+                        data: registro.data,
+                        idVacina: vacina.idVacina,
+                        nomeVacina: vacina.nome
                     }
-                })
-                
-            
+                    registrostable.push(r)
+                }
+            })
+
+
         })
-        setRegistroList(registrosTable)
+        setRegistroList(registrostable)
     }
 
     const loadVacinas = () => {
@@ -85,35 +84,30 @@ const Registro = () => {
     }, [vacinaList])
 
     useEffect(() => {
-        setShowTable(true)
+        setShowtable(true)
     }, [registroList])
     return (
-        <Container id="adicionar-registro" fluid>
-            <Row>
-                <Col id="menu" xs={2}>
-                    <Menu />
-                </Col>
-                <Col>
-                    <Form id="adicionar-registro-form" onSubmit={handleAdicionarRegistro}>
-                        <Form.Group className="mb-3" controlId="registro">
-                            <Form.Label>Data</Form.Label>
-                            <Form.Control type="date" name="data"  value={registro.nome} onChange={handleChange} placeholder="Data do registro" />
-                        </Form.Group>
-                        <Form.Select aria-label="" name="idVacina" required onChange={handleChange}>
-                            <option disabled selected value="">Selecione uma vacina</option>
-                            {vacinaList.map(vacina =>(
-                                <option key={"registro_"+vacina.idVacina} value={vacina.idVacina}>{vacina.nome}</option>
-                            ))}
-                            
-                        </Form.Select>
-                        <br />
-                        <div className="d-grid gap-2">
-                            <Button variant="primary" type="submit">Adicionar</Button>
-                        </div>
-                    </Form>
+        <div>
+            <Menu />
+            <div className="container" id="adicionar-registro">
+                <form id="adicionar-registro-form" onSubmit={handleAdicionarRegistro}>
+                    <label for="data">Data</label>
+                    <input type="date" name="data" value={registro.nome} onChange={handleChange} placeholder="Data do registro" />
+                    <select aria-label="" name="idVacina" required onChange={handleChange}>
+                        <option disabled selected value="">Selecione uma vacina</option>
+                        {vacinaList.map(vacina => (
+                            <option key={"registro_" + vacina.idVacina} value={vacina.idVacina}>{vacina.nome}</option>
+                        ))}
+
+                    </select>
                     <br />
-                    {showTable &&
-                        <Table id="table-list-registro" striped bordered hover>
+                    <div className="d-grid gap-2">
+                        <button variant="primary" type="submit">Adicionar</button>
+                    </div>
+                </form>
+                <br />
+                {showtable &&
+                    <table id="table-list-registro" striped bordered hover>
                         <thead>
                             <tr>
                                 <th>ID do registro</th>
@@ -123,20 +117,17 @@ const Registro = () => {
                         </thead>
                         <tbody>
                             {registroList.map((registro) => (
-                                <tr key={"registro_"+registro.idRegistro}>
+                                <tr key={"registro_" + registro.idRegistro}>
                                     <td>{registro.idRegistro}</td>
                                     <td>{converterData(registro.data)}</td>
                                     <td>{registro.nomeVacina}</td>
                                 </tr>
                             ))}
-
                         </tbody>
-                    </Table>
-                    }
-                    
-                </Col>
-            </Row>
-        </Container>
+                    </table>
+                }
+            </div>
+        </div>
     )
 }
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Container, Col, Form, Button, Table } from 'react-bootstrap';
 import Menu from '../../../components/menu';
 import { useUser } from '../../../providers/user';
 import api from '../../../utils/api';
@@ -39,32 +38,27 @@ const AdicionarVacina = () => {
         loadVacinas()
     }, [])
     return (
-        <Container id="adicionar-vacina" fluid>
-            <Row>
-                <Col id="menu" xs={2}>
-                    <Menu />
-                </Col>
-                <Col>
-                    <Form id="adicionar-vacina-form" onSubmit={handleAdicionarVacina}>
-                        <Form.Group className="mb-3" controlId="vacina">
-                            <Form.Label>Nome da vacina</Form.Label>
-                            <Form.Control type="text" name="nome" value={vacina.nome} onChange={(e) => { setVacina({ nome: e.target.value }) }} placeholder="Nome da vacina" />
-                        </Form.Group>
-                        <div className="d-grid gap-2">
-                            <Button variant="primary" type="submit">Adicionar</Button>
-                        </div>
-                    </Form>
-                    <br />
-                    <Table id="table-list-vacina" striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>ID da vacina</th>
-                                <th>Nome da vacina</th>
-                                <th>Criada em</th>
-                                <th>Atualizada em</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+        <div>
+            <Menu />
+
+            <div className="container" id="adicionar-vacina">
+
+                <form id="adicionar-vacina-form" onSubmit={handleAdicionarVacina}>
+                    <label for="nome">Nome da vacina</label>
+                    <input type="text" name="nome" value={vacina.nome} onChange={(e) => { setVacina({ nome: e.target.value }) }} placeholder="Nome da vacina" />
+                    <button className="btn-full primary" type="submit">Adicionar</button>
+                </form>
+                <br />
+                <table id="table-list-vacina" striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>ID da vacina</th>
+                            <th>Nome da vacina</th>
+                            <th>Criada em</th>
+                            <th>Atualizada em</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {vacinaList.map(vacina => (
                             <tr key={vacina.idVacina}>
                                 <td>{vacina.idVacina}</td>
@@ -73,12 +67,15 @@ const AdicionarVacina = () => {
                                 <td>{converterData(vacina.updatedAt)}</td>
                             </tr>
                         ))}
-                            
-                        </tbody>
-                    </Table>
-                </Col>
-            </Row>
-        </Container>
+
+                    </tbody>
+                </table>
+                <br />
+                <br />
+
+            </div>
+        </div>
+
     )
 }
 

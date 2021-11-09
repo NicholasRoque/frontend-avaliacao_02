@@ -1,5 +1,11 @@
 :root{
     --color-background-login: #465866;
+    --color-background-primary: #0b80da;
+    --color-background-primary-hover: #0a6fbd;
+
+    --color-background-secondary: #11578d;
+    --color-background-secondary-hover: #1d74b6;
+
 }
 
 html, body{
@@ -7,4 +13,96 @@ html, body{
     height: 100vh;
     margin:0;
     padding:0;
+    background-color: var(--color-background-login);
+    color: white;
+    font-family: "Segoe UI","Roboto", "Helvetica Neue", Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
 }
+
+.container{
+
+    width: 70%;
+    margin: 3rem auto;
+}
+.btn-full{
+    width: 100%;
+    border: 0;
+}
+
+
+
+button{
+    border-radius: .5rem;
+    border-width: .1rem;
+    border-radius: .5rem;
+    line-height: 2rem;
+    font-size: 1.15rem;
+    font-weight: 550;
+}
+
+.primary{
+    background-color: var(--color-background-primary);
+    color: white;
+}
+
+.primary:hover{
+    background-color: var(--color-background-primary-hover);
+}
+button:hover{
+    cursor: pointer;
+    transition: .4s;
+
+}
+
+input{
+    border-radius: .5rem;
+    line-height: 1.8rem;
+    padding-left: .7rem;
+    font-size: 1rem;
+    height: 1.7rem;
+
+}
+
+select{
+    border-radius: .3rem;
+    padding: 0 .7rem;
+    font-size: 1.15rem;
+    background-color: white;
+}
+
+label{
+    font-size: 1.15rem;
+    font-weight: 550;
+}
+
+form{
+    margin: 0 auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: var(--color-background-secondary);
+    border-radius: .5rem;
+  }
+  
+  td, th {
+    border: 1px solid black;
+    text-align: left;
+    padding: 1rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+  th{
+      background-color: var(--color-background-secondary-hover);
+  }
+  tr:hover{
+    background-color: var(--color-background-secondary-hover);
+      
+  }
+  td center select {
+    text-align: center;
+    font-size: 1.2rem;
+    padding: .4rem;
+  }

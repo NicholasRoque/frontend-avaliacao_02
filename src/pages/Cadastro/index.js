@@ -1,6 +1,5 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from "react-router-dom";
-import { Button, Form, Container } from 'react-bootstrap';
 import api from '../../utils/api';
 import "./index.css"
 
@@ -8,22 +7,24 @@ import "./index.css"
 const Cadastro = () => {
     const history = useHistory();
     const redirectLogin = () => history.push("/")
-    const [usuario,setUsuario] = useState({email:"",senha:"",perfil:""})
+    const [usuario, setUsuario] = useState({ email: "", senha: "", perfil: "" })
 
     const handleChange = (e) => {
         const value = e.target.value;
         setUsuario({
-          ...usuario,
-          [e.target.name]: value
+            ...usuario,
+            [e.target.name]: value
         })
     }
     const handleCadastro = (e) => {
         e.preventDefault()
-        api.post("/usuario/create",usuario).then((res) => {
-            if(res.status===200){
+        let data = { ...usuario }
+        data.perfil = "user"
+        api.post("/usuario/create", data).then((res) => {
+            if (res.status === 200) {
                 redirectLogin()
             }
-            
+
         }).catch(err => {
             let errors = [...err.response.data.error]
             console.log(errors)
@@ -31,37 +32,18 @@ const Cadastro = () => {
     }
 
     return (
-        <Container id="cadastro" fluid>
-            
-            <Form id="cadastro-form" onSubmit={handleCadastro}>
-                <Form.Group className="mb-3" controlId="email">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" name="email" value={usuario.email} onChange={handleChange} placeholder="email@email.com" />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="senha">
-                    <Form.Label>Senha</Form.Label>
-                    <Form.Control value={usuario.senha} name="senha" onChange={handleChange}  type="password"/>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="perfil">
-                    <Form.Label>Perfil</Form.Label>
-                    <Form.Select aria-label="" name="perfil" required onChange={handleChange}>
-                        <option disabled selected value="">Selecione um tipo de perfil</option>
-                        <option value="user">Usuário</option>
-                        <option value="admin">Administrador</option>
-                    </Form.Select>
-                </Form.Group>
-                
-                <br />
-                <div className="d-grid gap-2">
-                    <Button variant="primary" type="submit">Cadastrar</Button>
-                </div>
-                <br />
-                <div className="d-grid gap-2">
-                    <Button onClick={redirectLogin} variant="primary">Voltar para o login</Button>
-                </div>
-            </Form>
-            
-        </Container>
+        <div className="container" id="cadastro">
+
+            <form id="cadastro-form" onSubmit={handleCadastro}>
+                <label for="email">Email</label><br />
+                <input type="email" name="email" value={usuario.email} onChange={handleChange} placeholder="email@email.com" /><br />
+                <label for="senha">Senha</label><br />
+                <input value={usuario.senha} name="senha" onChange={handleChange} type="password" />
+                <button className="btn-full primary" type="submit">Cadastrar</button>
+                <button className="btn-full" onClick={redirectLogin}>Voltar para o login</button>
+            </form>
+
+        </div>
     )
 }
 

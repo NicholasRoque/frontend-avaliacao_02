@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHistory } from "react-router-dom";
-import { Nav, NavDropdown } from 'react-bootstrap';
 import { useUser } from '../../providers/user';
+import "./index.css"
 
 const Menu = () => {
     const { user } = useUser()
@@ -20,23 +20,21 @@ const Menu = () => {
     }
 
     return (
-        <Nav className="flex-column">
-            <center>
+            <div className="menu">
                 <br />
-                <Nav.Link onClick={redirectHome}>Home</Nav.Link>
+                <button className="btn-menu" onClick={redirectHome}>Home</button>
                     {user.perfil==="admin" && 
                         <>
-                            <Nav.Link onClick={redirectPerfil}>Perfil</Nav.Link>
-                            <Nav.Link onClick={redirectAdicionarVacina}>Vacinas</Nav.Link>
+                            <button className="btn-menu" onClick={redirectPerfil}>Perfil</button>
+                            <button className="btn-menu" onClick={redirectAdicionarVacina}>Vacinas</button>
                         </>
                     }
-                <Nav.Link onClick={redirectDados}>Seus dados</Nav.Link>
-                <Nav.Link onClick={redirectAdicionarRegistro}>Registros</Nav.Link>
-                <Nav.Link onClick={logout}>Logout</Nav.Link>
+                <button className="btn-menu" onClick={redirectDados}>Seus dados</button>
+                <button className="btn-menu" onClick={redirectAdicionarRegistro}>Registros</button>
+                <button className="btn-menu" onClick={logout}>Logout</button>
 
 
-            </center>
-        </Nav>
+            </div>
     )
 }
 
