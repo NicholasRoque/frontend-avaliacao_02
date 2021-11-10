@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import Menu from '../../../components/menu';
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
+import { FaEdit, FaTrashAlt } from "react-icons/fa"
+import { ImCross } from "react-icons/im"
+
+import "./index.css"
+
+import Alert from './../../../components/alert'
+import Menu from './../../../components/menu'
 
 import api from '../../../utils/api';
-import "./index.css"
 
 const AdicionarVacina = () => {
     api.defaults.headers.Authorization = `Bearer ${localStorage.getItem("token")}`
@@ -13,6 +16,7 @@ const AdicionarVacina = () => {
     const [vacinaList, setVacinaList] = useState([])
     const [showModalEditarVacina, setShowModalEditarVacina] = useState(false)
     const [idVacina, setIdVacina] = useState()
+    const [alertDiv, setAlertDiv] = useState([])
 
     const handleShowModalEditarVacina = (v) => {
         setShowModalEditarVacina(true)
@@ -30,10 +34,16 @@ const AdicionarVacina = () => {
         }
 
         await api.put("/vacina/update", data).then((res) => {
-            console.log(res)
+            handleCloseModalEditarVacina()
+            setAlertDiv([<Alert tema="success" conteudo="Vacina atualizada com sucesso." />])
             loadVacinas()
+            setTimeout(() => {setAlertDiv([])},4000)
+
         }).catch(err => {
-            console.log(err);
+            let errors = []
+            err.response.data.error.forEach(error => {
+                errors.push(<Alert tema="danger" conteudo={error} />)
+            })
         })
     }
 
@@ -41,18 +51,28 @@ const AdicionarVacina = () => {
         let data = { idVacina:idVacina }
         console.log(data)
         await api.delete("/vacina/remove",{data:data}).then((res) => {
+            setAlertDiv([<Alert tema="success" conteudo="Vacina removida com sucesso." />])
             loadVacinas()
+            setTimeout(() => {setAlertDiv([])},4000)
+
         }).catch(err => {
-            console.log(err);
+            let errors = []
+            err.response.data.error.forEach(error => {
+                errors.push(<Alert tema="danger" conteudo={error} />)
+            })
         })
     }
     const handleAdicionarVacina = (e) => {
         e.preventDefault()
         api.post("/vacina/create", vacina).then((res) => {
+            setAlertDiv([<Alert tema="success" conteudo="Vacina criada com sucesso." />])
             loadVacinas()
+            setTimeout(() => {setAlertDiv([])},4000)
         }).catch(err => {
-            let errors = [...err.response.data.error]
-            console.log(errors)
+            let errors = []
+            err.response.data.error.forEach(error => {
+                errors.push(<Alert tema="danger" conteudo={error} />)
+            })
         })
     }
 
@@ -79,13 +99,12 @@ const AdicionarVacina = () => {
             <Menu />
 
             <div className="container" id="adicionar-vacina">
-
                 <form id="adicionar-vacina-form" onSubmit={handleAdicionarVacina}>
                     <label for="nome">Nome da vacina</label>
                     <input type="text" name="nome" value={vacina.nome} onChange={(e) => { setVacina({ nome: e.target.value }) }} placeholder="Nome da vacina" />
                     <button className="btn-full primary" type="submit">Adicionar</button>
                 </form>
-                <br />
+                {alertDiv.map(a => a)}
                 <table id="table-list-vacina" striped bordered hover>
                     <thead>
                         <tr>

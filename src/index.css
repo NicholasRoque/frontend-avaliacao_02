@@ -6,9 +6,22 @@
     --color-background-secondary: #11578d;
     --color-background-secondary-hover: #1d74b6;
 
+    --color-background-info:#084298;
+    --color-border-info:#b6d4fe;
+    --color-info: #084298;
+
+    --color-background-success:#d1e7dd;
+    --color-border-success:#badbcc;
+    --color-success: #0f5132;
+
+    --color-background-danger:#f8d7da;
+    --color-border-danger:#f5c2c7;
+    --color-danger: #842029;
+
 }
 
 html, body{
+    overflow-x:hidden;
     width: 100vw;
     height: 100vh;
     margin:0;

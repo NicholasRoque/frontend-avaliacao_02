@@ -1,25 +1,81 @@
 import React, { useState, useEffect } from 'react'
-import Menu from '../../../components/menu';
-import api from '../../../utils/api';
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
+
 import "./index.css"
+
+import Menu from './../../../components/menu';
+import Alert from './../../../components/alert'
+
+import api from './../../../utils/api';
+
+
 
 const Registro = () => {
     api.defaults.headers.Authorization = `Bearer ${localStorage.getItem("token")}`
 
-    const [registro, setRegistro] = useState({ data: "", idVacina: "" })
+    const [registro, setRegistro] = useState({ data: null, idVacina: null, idRegistro: null })
     const [registroList, setRegistroList] = useState([])
     const [vacinaList, setVacinaList] = useState([])
     const [showtable, setShowtable] = useState(false)
+    const [idRegistro, setIdRegistro] = useState()
+    const [alertDiv, setAlertDiv] = useState([])
+
+    const [showModalEditarVacina, setShowModalEditarRegistro] = useState(false)
+
+    const handleShowModalEditarRegistro = (r) => {
+        setShowModalEditarRegistro(true)
+        setRegistro(r)
+    }
+    const handleCloseModalEditarRegistro = () => {
+        setShowModalEditarRegistro(false)
+    }
+
+    const handleUpdateRegistro = async (e) => {
+        e.preventDefault()
+
+        await api.put("/registro/update", registro).then((res) => {
+            handleCloseModalEditarRegistro()
+            setAlertDiv([<Alert tema="success" conteudo="Registro atualizado com sucesso." />])
+            loadRegistros()
+            setTimeout(() => {setAlertDiv([])},4000)
+
+        }).catch(err => {
+            let errors = []
+            err.response.data.error.forEach(error => {
+                errors.push(<Alert tema="danger" conteudo={error} />)
+            })
+        })
+    }
+
+    const handleRemoveRegistro = async (idRegistro) => {
+        let data = { idRegistro: idRegistro }
+        await api.delete("/registro/remove", { data: data }).then((res) => {
+            setAlertDiv([<Alert tema="success" conteudo="Registro removido com sucesso." />])
+            loadRegistros()
+            setTimeout(() => {setAlertDiv([])},4000)
+
+        }).catch(err => {
+            let errors = []
+            err.response.data.error.forEach(error => {
+                errors.push(<Alert tema="danger" conteudo={error} />)
+            })
+        })
+    }
 
 
     const handleAdicionarRegistro = async (e) => {
         e.preventDefault()
-        console.log(registro)
         await api.post("/registro/create", registro).then(async (res) => {
+            setAlertDiv([<Alert tema="success" conteudo="Registro adicionado com sucesso." />])
             await loadRegistros()
+            setTimeout(() => {setAlertDiv([])},4000)
+
         }).catch(err => {
-            let errors = [...err.response.data.error]
-            console.log(errors)
+            let errors = []
+            err.response.data.error.forEach(error => {
+                errors.push(<Alert tema="danger" conteudo={error} />)
+            })
         })
     }
 
@@ -86,6 +142,18 @@ const Registro = () => {
     useEffect(() => {
         setShowtable(true)
     }, [registroList])
+
+    /* 
+    import Alert from './../../components/alert'
+    const [alertDiv, setAlertDiv] = useState([])
+            setAlertDiv([<Alert tema="success" conteudo="Perfil atualizado com sucesso." />])
+            setTimeout(() => {setAlertDiv([])},4000)
+            let errors = []
+            err.response.data.error.forEach(error => {
+                errors.push(<Alert tema="danger" conteudo={error} />)
+            })
+                {alertDiv.map(a => a)}
+    */
     return (
         <div>
             <Menu />
@@ -102,7 +170,7 @@ const Registro = () => {
                     </select>
                     <button className="primary btn-full" type="submit">Adicionar</button>
                 </form>
-                <br />
+                {alertDiv.map(a => a)}
                 {showtable &&
                     <table id="table-list-registro" >
                         <thead>
@@ -110,18 +178,47 @@ const Registro = () => {
                                 <th>ID do registro</th>
                                 <th>Data</th>
                                 <th>Vacina</th>
+                                <th />
+                                <th />
                             </tr>
                         </thead>
                         <tbody>
-                            {registroList.map((registro) => (
-                                <tr key={"registro_" + registro.idRegistro}>
-                                    <td>{registro.idRegistro}</td>
-                                    <td>{converterData(registro.data)}</td>
-                                    <td>{registro.nomeVacina}</td>
+                            {registroList.map((reg) => (
+                                <tr key={"registro_" + reg.idRegistro}>
+                                    <td>{reg.idRegistro}</td>
+                                    <td>{converterData(reg.data)}</td>
+                                    <td>{reg.nomeVacina}</td>
+                                    <td><center onClick={() => handleShowModalEditarRegistro(reg)}><FaEdit id="iconTable" /></center></td>
+                                    <td><center onClick={() => handleRemoveRegistro(reg.idRegistro)}><FaTrashAlt id="iconTable" /></center></td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
+                }
+                {showModalEditarVacina &&
+
+                    <div className="modal">
+                        <div className="modal-content">
+                            <span>
+                                Atualizar Registro
+                                <span onClick={handleCloseModalEditarRegistro} className="close"><ImCross id="icon" /></span>
+                            </span>
+                            <hr />
+                            <form id="update-registro-form" onSubmit={handleUpdateRegistro}>
+                                <label for="data">Data</label><br />
+                                <input type="date" name="data" value={registro.data} onChange={handleChange} placeholder="Data do registro" />
+                                <select aria-label="" name="idVacina" onChange={handleChange}>
+                                    <option disabled selected >Selecione uma vacina</option>
+                                    {vacinaList.map(vacina => (
+                                        <option key={"registro_update_" + vacina.idVacina} value={vacina.idVacina}>{vacina.nome}</option>
+                                    ))}
+
+                                </select>
+                                <button className="primary btn-full" type="submit">Salvar</button>
+                            </form>
+                        </div>
+
+                    </div>
                 }
             </div>
         </div>

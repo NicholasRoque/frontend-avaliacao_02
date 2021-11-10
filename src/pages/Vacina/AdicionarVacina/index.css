@@ -17,3 +17,7 @@
 #adicionar-vacina-form input+button, #update-vacina-form input+button{
     margin: 2rem auto 1rem auto;
 }
+
+form+#table-list-vacina{
+    margin: 1.2rem auto;
+}

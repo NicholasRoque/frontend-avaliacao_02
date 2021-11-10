@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import Menu from '../../components/menu';
+import Alert from './../../components/alert'
 import api from '../../utils/api';
 import "./index.css"
 
 const Perfil = () => {
     const [usuarios, setUsuarios] = useState([])
     const [showtable, setShowtable] = useState(false)
+    const [alertDiv, setAlertDiv] = useState([])
+
     api.defaults.headers.Authorization = `Bearer ${localStorage.getItem("token")}`
 
 
     const handleMudarPerfil = async (perfil, idUsuario) => {
         let data = { perfil: perfil, idUsuario: idUsuario }
         await api.put("/usuario/update/perfil", data).then((res) => {
-            console.log(res);
+            setAlertDiv([<Alert tema="success" conteudo="Perfil atualizado com sucesso." />])
+            setTimeout(() => {setAlertDiv([])},4000)
+            
             loadUsuarios()
-            //document.getElementById(idUsuario.toString()).value = res.data.perfil
         }).catch(err => {
-            console.log(err);
+            let errors = []
+            err.response.data.error.forEach(error => {
+                errors.push(<Alert tema="danger" conteudo={error} />)
+            })
         })
 
     }
@@ -25,7 +32,10 @@ const Perfil = () => {
         await api.get("/usuario/list").then((res) => {
             setUsuarios(res.data.usuarios)
         }).catch((err) => {
-            console.log(err);
+            let errors = []
+            err.response.data.error.forEach(error => {
+                errors.push(<Alert tema="danger" conteudo={error} />)
+            })
         })
     }
 
@@ -37,11 +47,13 @@ const Perfil = () => {
         console.log(usuarios)
         setShowtable(true)
     }, [usuarios])
+
     return (
         <div>
             <Menu />
 
             <div className="container" id="mudar-perfil" >
+                {alertDiv.map(a => a)}
                 <br />
                 {showtable &&
                     <table id="table-list-usuarios" >
