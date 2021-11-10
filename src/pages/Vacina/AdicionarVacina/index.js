@@ -143,7 +143,7 @@ const AdicionarVacina = () => {
                             <form id="update-vacina-form" onSubmit={handleUpdateVacina}>
                                 <label for="nomeUpdate">Nome da vacina</label>
                                 <input type="text" id="nomeVacinaUpdate" name="nomeUpdate" placeholder="Nome da vacina" />
-                                <button className="btn-full primary" type="submit">Adicionar</button>
+                                <button className="btn-full primary" type="submit">Salvar</button>
                             </form>
                         </div>
 
