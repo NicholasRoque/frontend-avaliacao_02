@@ -150,3 +150,9 @@ table {
 .modal-content>span>span>#icon{
       width: 1.5rem;
 }
+
+#iconTable:hover{
+    cursor: pointer;
+    color:#aaa;
+
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Menu from '../../../components/menu';
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 
 import api from '../../../utils/api';
@@ -31,6 +31,16 @@ const AdicionarVacina = () => {
 
         await api.put("/vacina/update", data).then((res) => {
             console.log(res)
+            loadVacinas()
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+    const handleRemoveVacina = async (idVacina) => {
+        let data = { idVacina:idVacina }
+        console.log(data)
+        await api.delete("/vacina/remove",{data:data}).then((res) => {
             loadVacinas()
         }).catch(err => {
             console.log(err);
@@ -84,6 +94,7 @@ const AdicionarVacina = () => {
                             <th>Criada em</th>
                             <th>Atualizada em</th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,7 +104,8 @@ const AdicionarVacina = () => {
                                 <td>{vacina.nome}</td>
                                 <td>{converterData(vacina.createdAt)}</td>
                                 <td>{converterData(vacina.updatedAt)}</td>
-                                <td><center onClick={() => handleShowModalEditarVacina(vacina.idVacina)}><FaEdit /></center></td>
+                                <td><center onClick={() => handleShowModalEditarVacina(vacina.idVacina)}><FaEdit id="iconTable" /></center></td>
+                                <td><center onClick={() => handleRemoveVacina(vacina.idVacina)}><FaTrashAlt id="iconTable" /></center></td>
                             </tr>
                         ))}
                     </tbody>
@@ -102,7 +114,7 @@ const AdicionarVacina = () => {
                 <br />
                 {showModalEditarVacina &&
 
-                    <div id="myModal" className="modal">
+                    <div className="modal">
                         <div className="modal-content">
                             <span>
                                 Atualizar Vacina
