@@ -1,0 +1,23 @@
+#adicionar-registro-form {
+    width: 35%;
+    text-align: center;
+}
+
+#adicionar-registro-form input{
+    margin: 1rem auto;
+    width: calc(100% - 1rem);
+
+}
+
+#adicionar-registro-form select{
+    margin: 1rem auto;
+    width: 100%;
+}
+#adicionar-registro-form button{
+    margin: 1rem auto 2rem auto;
+}
+
+#table-list-registro{
+    margin: auto auto;
+    width: 70%;
+}

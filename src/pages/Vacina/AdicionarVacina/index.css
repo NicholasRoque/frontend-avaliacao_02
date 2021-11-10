@@ -3,11 +3,17 @@
     text-align: center;
 }
 
-#adicionar-vacina-form input{
+ #update-vacina-form{
+    width: 35%;
+    text-align: center;
+    margin: 2rem auto;
+}
+
+#adicionar-vacina-form input, #update-vacina-form input{
     margin: 1rem auto;
     width: calc(100% - 1.075rem);
 }
 
-#adicionar-vacina-form input+button{
+#adicionar-vacina-form input+button, #update-vacina-form input+button{
     margin: 2rem auto 1rem auto;
 }

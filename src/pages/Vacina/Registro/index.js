@@ -100,14 +100,11 @@ const Registro = () => {
                         ))}
 
                     </select>
-                    <br />
-                    <div className="d-grid gap-2">
-                        <button variant="primary" type="submit">Adicionar</button>
-                    </div>
+                    <button className="primary btn-full" type="submit">Adicionar</button>
                 </form>
                 <br />
                 {showtable &&
-                    <table id="table-list-registro" striped bordered hover>
+                    <table id="table-list-registro" >
                         <thead>
                             <tr>
                                 <th>ID do registro</th>

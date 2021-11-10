@@ -1,0 +1,15 @@
+#form-update-email button,#form-update-senha button{
+    border: 0;
+}
+
+#form-update-email label+input,#form-update-senha label+input{
+    margin: auto 1rem
+}
+
+#form-update-email,#form-update-senha{
+    width: 50%;
+    text-align: center;
+}
+hr+#form-update-email,hr+#form-update-senha{
+    margin: 2rem auto;
+}

@@ -11,7 +11,6 @@ const Perfil = () => {
 
     const handleMudarPerfil = async (perfil, idUsuario) => {
         let data = { perfil: perfil, idUsuario: idUsuario }
-        console.log(data);
         await api.put("/usuario/update/perfil", data).then((res) => {
             console.log(res);
             loadUsuarios()
@@ -42,7 +41,7 @@ const Perfil = () => {
         <div>
             <Menu />
 
-            <div className="container" id="adicionar-registro" >
+            <div className="container" id="mudar-perfil" >
                 <br />
                 {showtable &&
                     <table id="table-list-usuarios" >

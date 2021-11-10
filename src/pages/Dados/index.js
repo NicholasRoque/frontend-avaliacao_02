@@ -37,21 +37,19 @@ const Dados = () => {
             <Menu />
             <div className="container" id="update-dados" >
 
-                <div id="dados">
 
-                    <form onSubmit={handleUpdateEmail}>
-                        <label for="email">Email</label>
+                    <form id="form-update-email" onSubmit={handleUpdateEmail}>
+                        <label for="email">Email:</label>
                         <input required name="email" type="email" placeholder="email@email.com" aria-label="Email" aria-describedby="" />
-                        <button type="submit" id="btn-update-email">Atualizar</button>
+                        <button className="primary" type="submit" id="btn-update-email">Atualizar</button>
                     </form>
                     <br />
                     <hr />
-                    <form onSubmit={handleUpdateSenha}>
-                        <label for="senha">Senha</label>
+                    <form id="form-update-senha" onSubmit={handleUpdateSenha}>
+                        <label for="senha">Senha:</label>
                         <input name="senha" required type="password" aria-label="Senha" aria-describedby="" />
-                        <button type="submit" id="btn-update-senha">Atualizar</button>
+                        <button className="primary" type="submit" id="btn-update-senha">Atualizar</button>
                     </form>
-                </div>
             </div>
         </div>
     )
