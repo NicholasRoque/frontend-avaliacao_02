@@ -1,4 +1,10 @@
 #cadastro{
-    width: 50%;
+    width: 35%;
     margin: 3rem auto;
+}
+@media (max-width:1365px) {
+    #cadastro{
+        width: 50%;
+        margin: 5rem auto;
+    }
 }

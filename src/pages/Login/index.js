@@ -52,18 +52,21 @@ const Login = () => {
 
     return (
         <div className="container-fluid" id="login" >
-
+            <center id="alertLogin">
+                {alertDiv.map(a => a)}
+            </center>
+            <br />
             <Form id="login-form" onSubmit={handleLogin}>
                 <FormGroup>
                     <Label for="email" className="h5">Email</Label>
-                    <Input id="email" value={usuario.email} onChange={handleChange} name="email" placeholder="email@email.com" type="email"/>
+                    <Input id="email" value={usuario.email} onChange={handleChange} name="email" placeholder="email@email.com" type="email" />
                 </FormGroup>
                 <br />
                 <FormGroup>
                     <Label for="senha" className="h5">Senha</Label>
-                    <Input id="senha" value={usuario.senha} onChange={handleChange} name="senha" type="password"/>
+                    <Input id="senha" value={usuario.senha} onChange={handleChange} name="senha" type="password" />
                 </FormGroup>
-                {alertDiv.map(a => a)}
+
                 <Button block color="primary" type="submit">Entrar</Button>
                 <br />
                 <Button block color="secondary" type="button" onClick={redirectCadastro}>Cadastro</Button>

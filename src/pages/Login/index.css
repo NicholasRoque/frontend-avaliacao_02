@@ -1,4 +1,13 @@
 #login{
-    width: 50%;
+    width: 35%;
     margin: 3rem auto;
+}
+#alertLogin>div{
+    width: 100%;
+}
+@media (max-width:1365px) {
+    #login{
+        width: 50%;
+        margin: 5rem auto;
+    }
 }
