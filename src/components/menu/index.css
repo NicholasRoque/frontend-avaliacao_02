@@ -1,20 +1,26 @@
 .btn-menu{
-    background-color: var(--color-background-secondary);
-    color: white;
+    background-color: var(--color-background-secondary) !important;
+    color: white !important;
+    transition: .3s !important;
     border-radius: .1rem !important;
-    border: none;
-    transition: .3s;
+    font-size: 1.3rem;
+
 }
 
 .btn-menu:hover{
-    background-color: var(--color-background-secondary-hover);
+    background-color: var(--color-background-secondary-hover) !important;
+    cursor: pointer;
 }
-
 .menu{
     display: flex;
-    height: 3rem;
+    height: 3.3rem;
     margin: 0rem auto;
-    background-color: var(--color-background-secondary);
-    justify-content: center;
+    background-color: var(--color-background-secondary) !important;
 
+} 
+
+#navbar{
+    justify-content: center;
+    width: 100%;
+    text-align: center;
 }

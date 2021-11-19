@@ -1,4 +1,14 @@
-#form-update-email button,#form-update-senha button{
+#update-dados{
+    margin: 3rem auto;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* #form-update-email button,#form-update-senha button{
     border: 0;
 }
 
@@ -12,4 +22,4 @@
 }
 hr+#form-update-email,hr+#form-update-senha{
     margin: 2rem auto;
-}
+} */

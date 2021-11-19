@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Menu from '../../components/menu';
-import Alert from './../../components/alert'
 import api from '../../utils/api';
+import { Form, FormGroup, Label, Input, Button, Alert, Table } from 'reactstrap';
+
 import "./index.css"
 
 const Perfil = () => {
@@ -15,14 +16,14 @@ const Perfil = () => {
     const handleMudarPerfil = async (perfil, idUsuario) => {
         let data = { perfil: perfil, idUsuario: idUsuario }
         await api.put("/usuario/update/perfil", data).then((res) => {
-            setAlertDiv([<Alert tema="success" conteudo="Perfil atualizado com sucesso." />])
-            setTimeout(() => {setAlertDiv([])},4000)
-            
+            setAlertDiv([<Alert color="success">Perfil atualizado com sucesso.</Alert>])
+            setTimeout(() => { setAlertDiv([]) }, 4000)
+
             loadUsuarios()
         }).catch(err => {
             let errors = []
             err.response.data.error.forEach(error => {
-                errors.push(<Alert tema="danger" conteudo={error} />)
+                errors.push(<Alert color="danger">{error}</Alert>)
             })
         })
 
@@ -34,7 +35,7 @@ const Perfil = () => {
         }).catch((err) => {
             let errors = []
             err.response.data.error.forEach(error => {
-                errors.push(<Alert tema="danger" conteudo={error} />)
+                errors.push(<Alert color="danger">{error}</Alert>)
             })
         })
     }
@@ -54,12 +55,11 @@ const Perfil = () => {
 
             <div className="container" id="mudar-perfil" >
                 {alertDiv.map(a => a)}
-                <br />
                 {showtable &&
-                    <table id="table-list-usuarios" >
+                    <Table id="table-list-usuarios" >
                         <thead>
-                            <tr>
-                                <th>ID do usuario</th>
+                            <tr >
+                                <th>ID</th>
                                 <th>Email</th>
                                 <th>Perfil</th>
                             </tr>
@@ -67,21 +67,21 @@ const Perfil = () => {
                         <tbody>
                             {usuarios.map((usuario) => (
                                 <tr key={usuario.idUsuario}>
-                                    <td>{usuario.idUsuario}</td>
+                                    <th scope="row">{usuario.idUsuario}</th>
                                     <td>{usuario.email}</td>
                                     <td>
                                         <center>
-                                            <select id={usuario.idUsuario} value={usuario.perfil} onChange={(e) => { handleMudarPerfil(e.target.value, usuario.idUsuario) }} aria-label="" name="usuarioPerfil" >
-                                                <option value="admin">Administrador</option>
-                                                <option value="user">Usuário</option>
-                                            </select>
+                                                <Input value={usuario.perfil}  onChange={(e) => { handleMudarPerfil(e.target.value, usuario.idUsuario) }} id={usuario.idUsuario} name="usuarioPerfil" type="select">
+                                                    <option value="admin">Administrador</option>
+                                                    <option value="user">Usuário</option>
+                                                </Input>
                                         </center>
                                     </td>
                                 </tr>
                             ))}
 
                         </tbody>
-                    </table>
+                    </Table>
                 }
             </div>
         </div>

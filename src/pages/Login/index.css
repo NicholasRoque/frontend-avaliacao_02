@@ -1,4 +1,4 @@
-
+/* 
 
 #login-form{
     width: 35%;
@@ -16,4 +16,9 @@
 
 #login-form div+button{
     margin: 1rem auto 1rem auto;
+} */
+
+#login{
+    width: 50%;
+    margin: 3rem auto;
 }

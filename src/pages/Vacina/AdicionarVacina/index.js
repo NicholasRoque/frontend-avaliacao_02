@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { FaEdit, FaTrashAlt } from "react-icons/fa"
-import { ImCross } from "react-icons/im"
 
 import "./index.css"
+import { Form, FormGroup, Label, Input, Button, Alert, Table, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-import Alert from './../../../components/alert'
 import Menu from './../../../components/menu'
 
 import api from '../../../utils/api';
@@ -19,8 +18,12 @@ const AdicionarVacina = () => {
     const [alertDiv, setAlertDiv] = useState([])
 
     const handleShowModalEditarVacina = (v) => {
-        setShowModalEditarVacina(true)
-        setIdVacina(v)
+        api.get(`/vacina/${v}`).then((res) => {
+            setVacina({nome:res.data.nome})
+            setIdVacina(v)
+            setShowModalEditarVacina(true)
+
+        })
     }
     const handleCloseModalEditarVacina = () => {
         setShowModalEditarVacina(false)
@@ -29,50 +32,53 @@ const AdicionarVacina = () => {
     const handleUpdateVacina = async (e) => {
         e.preventDefault()
         let data = {
-            idVacina:idVacina,
-            nome:document.getElementById("nomeVacinaUpdate").value
+            idVacina: idVacina,
+            nome: document.getElementById("nomeVacinaUpdate").value
         }
 
         await api.put("/vacina/update", data).then((res) => {
             handleCloseModalEditarVacina()
-            setAlertDiv([<Alert tema="success" conteudo="Vacina atualizada com sucesso." />])
+            setAlertDiv([<Alert color="success">Vacina atualizada com sucesso.</Alert>])
             loadVacinas()
-            setTimeout(() => {setAlertDiv([])},4000)
+            setTimeout(() => { setAlertDiv([]) }, 4000)
 
         }).catch(err => {
             let errors = []
             err.response.data.error.forEach(error => {
-                errors.push(<Alert tema="danger" conteudo={error} />)
+                errors.push(<Alert color="danger">{error}</Alert>)
             })
+            setAlertDiv(errors)
         })
     }
 
     const handleRemoveVacina = async (idVacina) => {
-        let data = { idVacina:idVacina }
+        let data = { idVacina: idVacina }
         console.log(data)
-        await api.delete("/vacina/remove",{data:data}).then((res) => {
-            setAlertDiv([<Alert tema="success" conteudo="Vacina removida com sucesso." />])
+        await api.delete("/vacina/remove", { data: data }).then((res) => {
+            setAlertDiv([<Alert color="success">Vacina removida com sucesso.</Alert>])
             loadVacinas()
-            setTimeout(() => {setAlertDiv([])},4000)
+            setTimeout(() => { setAlertDiv([]) }, 4000)
 
         }).catch(err => {
             let errors = []
             err.response.data.error.forEach(error => {
-                errors.push(<Alert tema="danger" conteudo={error} />)
+                errors.push(<Alert color="danger">{error}</Alert>)
             })
+            setAlertDiv(errors)
         })
     }
     const handleAdicionarVacina = (e) => {
         e.preventDefault()
         api.post("/vacina/create", vacina).then((res) => {
-            setAlertDiv([<Alert tema="success" conteudo="Vacina criada com sucesso." />])
+            setAlertDiv([<Alert color="success">Vacina criada com sucesso.</Alert>])
             loadVacinas()
-            setTimeout(() => {setAlertDiv([])},4000)
+            setTimeout(() => { setAlertDiv([]) }, 4000)
         }).catch(err => {
             let errors = []
             err.response.data.error.forEach(error => {
-                errors.push(<Alert tema="danger" conteudo={error} />)
+                errors.push(<Alert color="danger">{error}</Alert>)
             })
+            setAlertDiv(errors)
         })
     }
 
@@ -99,19 +105,25 @@ const AdicionarVacina = () => {
             <Menu />
 
             <div className="container" id="adicionar-vacina">
-                <form id="adicionar-vacina-form" onSubmit={handleAdicionarVacina}>
-                    <label for="nome">Nome da vacina</label>
-                    <input type="text" name="nome" value={vacina.nome} onChange={(e) => { setVacina({ nome: e.target.value }) }} placeholder="Nome da vacina" />
-                    <button className="btn-full primary" type="submit">Adicionar</button>
-                </form>
+
+                <Form id="adicionar-vacina-form" onSubmit={handleAdicionarVacina}>
+                    <FormGroup>
+                        <Label for="nome" className="h5">Nome da vacina</Label><br />
+                        <Input id="nome" name="nome" onChange={(e) => { setVacina({ nome: e.target.value }) }} placeholder="Nome da vacina" type="text" />
+                    </FormGroup>
+                    <br />
+                    <Button block color="primary" type="submit">Adicionar</Button>
+                </Form>
+                <br />
                 {alertDiv.map(a => a)}
-                <table id="table-list-vacina" striped bordered hover>
+
+                <Table id="table-list-vacina" >
                     <thead>
                         <tr>
-                            <th>ID da vacina</th>
-                            <th>Nome da vacina</th>
+                            <th>ID</th>
+                            <th>Nome</th>
                             <th>Criada em</th>
-                            <th>Atualizada em</th>
+                            <th>Atual. em</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -119,21 +131,19 @@ const AdicionarVacina = () => {
                     <tbody>
                         {vacinaList.map(vacina => (
                             <tr key={vacina.idVacina}>
-                                <td>{vacina.idVacina}</td>
+                                <th scope="row">{vacina.idVacina}</th>
                                 <td>{vacina.nome}</td>
                                 <td>{converterData(vacina.createdAt)}</td>
                                 <td>{converterData(vacina.updatedAt)}</td>
-                                <td><center onClick={() => handleShowModalEditarVacina(vacina.idVacina)}><FaEdit id="iconTable" /></center></td>
-                                <td><center onClick={() => handleRemoveVacina(vacina.idVacina)}><FaTrashAlt id="iconTable" /></center></td>
+                                <td className="iconTd"><center onClick={() => handleShowModalEditarVacina(vacina.idVacina)}><FaEdit className="iconTable" /></center></td>
+                                <td className="iconTd"><center onClick={() => handleRemoveVacina(vacina.idVacina)}><FaTrashAlt className="iconTable" /></center></td>
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </Table>
                 <br />
                 <br />
-                {showModalEditarVacina &&
-
-                    <div className="modal">
+                {/* <div className="modal">
                         <div className="modal-content">
                             <span>
                                 Atualizar Vacina
@@ -147,7 +157,28 @@ const AdicionarVacina = () => {
                             </form>
                         </div>
 
-                    </div>
+                    </div> */}
+                {showModalEditarVacina &&
+
+
+                    <Modal id="modal-editar-vacina" isOpen={handleShowModalEditarVacina}>
+                        <ModalHeader  toggle={handleCloseModalEditarVacina}>
+                            <span className="h3">Editar vacina</span>
+                        </ModalHeader>
+                        <ModalBody>
+                            <Form id="update-vacina-form" onSubmit={handleUpdateVacina}>
+                                <FormGroup>
+                                    <Label for="nomeUpdate" className="h5">Nome da vacina</Label><br />
+                                    <Input id="nomeVacinaUpdate" value={vacina.nome} name="nomeUpdate" onChange={(e) => { setVacina({ nome: e.target.value }) }} placeholder="Nome da vacina" type="text" />
+                                </FormGroup>
+                                <br />
+                                <Button block color="primary" type="submit">Salvar</Button>
+                            </Form>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button onClick={handleCloseModalEditarVacina}>Voltar</Button>
+                        </ModalFooter>
+                    </Modal>
                 }
 
 

@@ -5,7 +5,8 @@ import { ImCross } from "react-icons/im";
 import "./index.css"
 
 import Menu from './../../../components/menu';
-import Alert from './../../../components/alert'
+import { Form, FormGroup, Label, Input, Button, Alert, Table, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
 
 import api from './../../../utils/api';
 
@@ -36,30 +37,33 @@ const Registro = () => {
 
         await api.put("/registro/update", registro).then((res) => {
             handleCloseModalEditarRegistro()
-            setAlertDiv([<Alert tema="success" conteudo="Registro atualizado com sucesso." />])
+            setAlertDiv([<Alert color="success">Registro atualizado com sucesso.</Alert>])
             loadRegistros()
-            setTimeout(() => {setAlertDiv([])},4000)
+            setTimeout(() => { setAlertDiv([]) }, 4000)
 
         }).catch(err => {
             let errors = []
             err.response.data.error.forEach(error => {
-                errors.push(<Alert tema="danger" conteudo={error} />)
+                errors.push(<Alert color="danger">{error}.</Alert>)
             })
+            setAlertDiv(errors)
         })
     }
 
     const handleRemoveRegistro = async (idRegistro) => {
         let data = { idRegistro: idRegistro }
         await api.delete("/registro/remove", { data: data }).then((res) => {
-            setAlertDiv([<Alert tema="success" conteudo="Registro removido com sucesso." />])
+            setAlertDiv([<Alert color="success">Registro removido com sucesso.</Alert>])
             loadRegistros()
-            setTimeout(() => {setAlertDiv([])},4000)
+            setTimeout(() => { setAlertDiv([]) }, 4000)
 
         }).catch(err => {
             let errors = []
             err.response.data.error.forEach(error => {
-                errors.push(<Alert tema="danger" conteudo={error} />)
+                errors.push(<Alert color="danger">{error}.</Alert>)
             })
+            setAlertDiv(errors)
+
         })
     }
 
@@ -67,15 +71,17 @@ const Registro = () => {
     const handleAdicionarRegistro = async (e) => {
         e.preventDefault()
         await api.post("/registro/create", registro).then(async (res) => {
-            setAlertDiv([<Alert tema="success" conteudo="Registro adicionado com sucesso." />])
+            setAlertDiv([<Alert color="success">Registro adicionado com sucesso.</Alert>])
             await loadRegistros()
-            setTimeout(() => {setAlertDiv([])},4000)
+            setTimeout(() => { setAlertDiv([]) }, 4000)
 
         }).catch(err => {
             let errors = []
             err.response.data.error.forEach(error => {
-                errors.push(<Alert tema="danger" conteudo={error} />)
+                errors.push(<Alert color="danger">{error}.</Alert>)
             })
+            setAlertDiv(errors)
+
         })
     }
 
@@ -143,22 +149,11 @@ const Registro = () => {
         setShowtable(true)
     }, [registroList])
 
-    /* 
-    import Alert from './../../components/alert'
-    const [alertDiv, setAlertDiv] = useState([])
-            setAlertDiv([<Alert tema="success" conteudo="Perfil atualizado com sucesso." />])
-            setTimeout(() => {setAlertDiv([])},4000)
-            let errors = []
-            err.response.data.error.forEach(error => {
-                errors.push(<Alert tema="danger" conteudo={error} />)
-            })
-                {alertDiv.map(a => a)}
-    */
     return (
         <div>
             <Menu />
             <div className="container" id="adicionar-registro">
-                <form id="adicionar-registro-form" onSubmit={handleAdicionarRegistro}>
+                {/* <form id="adicionar-registro-form" onSubmit={handleAdicionarRegistro}>
                     <label for="data">Data</label>
                     <input type="date" name="data" value={registro.nome} onChange={handleChange} placeholder="Data do registro" />
                     <select aria-label="" name="idVacina" required onChange={handleChange}>
@@ -169,10 +164,29 @@ const Registro = () => {
 
                     </select>
                     <button className="primary btn-full" type="submit">Adicionar</button>
-                </form>
+                </form> */}
+                <Form id="adicionar-registro-form" onSubmit={handleAdicionarRegistro}>
+                    <FormGroup>
+                        <Label for="data" className="h5">Data:</Label><br />
+                        <Input id="data" value={registro.data} required onChange={handleChange} name="data" type="date" />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="idVacina" className="h5">Vacina:</Label>
+                        <Input required onChange={handleChange} id="idVacina" name="idVacina" type="select">
+                            <option disabled selected value="">Selecione uma vacina</option>
+
+                            {vacinaList.map(vacina => (
+                                <option key={"registro_" + vacina.idVacina} value={vacina.idVacina}>{vacina.nome}</option>
+                            ))}
+                        </Input>
+                    </FormGroup>
+                    <Button block color="primary" type="submit">Adicionar</Button>
+                </Form>
+                <br />
+
                 {alertDiv.map(a => a)}
                 {showtable &&
-                    <table id="table-list-registro" >
+                    <Table id="table-list-registro" >
                         <thead>
                             <tr>
                                 <th>ID do registro</th>
@@ -188,16 +202,14 @@ const Registro = () => {
                                     <td>{reg.idRegistro}</td>
                                     <td>{converterData(reg.data)}</td>
                                     <td>{reg.nomeVacina}</td>
-                                    <td><center onClick={() => handleShowModalEditarRegistro(reg)}><FaEdit id="iconTable" /></center></td>
-                                    <td><center onClick={() => handleRemoveRegistro(reg.idRegistro)}><FaTrashAlt id="iconTable" /></center></td>
+                                    <td><center onClick={() => handleShowModalEditarRegistro(reg)}><FaEdit className="iconTable" /></center></td>
+                                    <td><center onClick={() => handleRemoveRegistro(reg.idRegistro)}><FaTrashAlt className="iconTable" /></center></td>
                                 </tr>
                             ))}
                         </tbody>
-                    </table>
+                    </Table>
                 }
-                {showModalEditarVacina &&
-
-                    <div className="modal">
+                {/* <div className="modal">
                         <div className="modal-content">
                             <span>
                                 Atualizar Registro
@@ -218,7 +230,37 @@ const Registro = () => {
                             </form>
                         </div>
 
-                    </div>
+                    </div> */}
+                {showModalEditarVacina &&
+
+
+                    <Modal id="modal-editar-registro" isOpen={handleShowModalEditarRegistro}>
+                        <ModalHeader toggle={handleCloseModalEditarRegistro}>
+                            <span className="h3">Editar registro</span>
+                        </ModalHeader>
+                        <ModalBody>
+                            <Form id="update-registro-form" onSubmit={handleUpdateRegistro}>
+                                <FormGroup>
+                                    <Label for="data" className="h5">Data:</Label><br />
+                                    <Input id="data" value={registro.data} required onChange={handleChange} name="data" type="date" />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="idVacina" className="h5">Vacina:</Label>
+                                    <Input required onChange={handleChange} id="idVacina" name="idVacina" type="select">
+                                        <option disabled selected value="">Selecione uma vacina</option>
+
+                                        {vacinaList.map(vacina => (
+                                            <option key={"registro_update_" + vacina.idVacina} value={vacina.idVacina}>{vacina.nome}</option>
+                                        ))}
+                                    </Input>
+                                </FormGroup>
+                                <Button block color="primary" type="submit">Atualizar</Button>
+                            </Form>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button onClick={handleCloseModalEditarRegistro}>Voltar</Button>
+                        </ModalFooter>
+                    </Modal>
                 }
             </div>
         </div>

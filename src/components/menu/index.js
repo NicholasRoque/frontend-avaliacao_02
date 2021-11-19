@@ -2,6 +2,7 @@ import React from 'react'
 import { useHistory } from "react-router-dom";
 import { useUser } from '../../providers/user';
 import "./index.css"
+import { Navbar, NavbarBrand, Collapse, Nav, NavItem, NavLink, NavbarToggler } from 'reactstrap';
 
 const Menu = () => {
     const { user } = useUser()
@@ -19,22 +20,48 @@ const Menu = () => {
 
     }
 
+    const mostrarMenu = () => {
+        let menu = document.getElementById("collapseNavBar")
+        let classes = menu.classList
+        if (classes.contains("show")) {
+            menu.classList.remove("show")
+        } else {
+            menu.classList.add("show")
+        }
+    }
+
     return (
-            <div className="menu">
-                <br />
-                <button className="btn-menu" onClick={redirectHome}>Home</button>
-                    {user.perfil==="admin" && 
-                        <>
-                            <button className="btn-menu" onClick={redirectPerfil}>Perfil</button>
-                            <button className="btn-menu" onClick={redirectAdicionarVacina}>Vacinas</button>
-                        </>
-                    }
-                <button className="btn-menu" onClick={redirectDados}>Seus dados</button>
-                <button className="btn-menu" onClick={redirectAdicionarRegistro}>Registros</button>
-                <button className="btn-menu" onClick={logout}>Logout</button>
-
-
-            </div>
+        <div>
+            <Navbar className="menu" expand="md" full dark>     
+                <NavbarToggler id="hamburguer" onClick={mostrarMenu} />
+                <Collapse id="collapseNavBar" navbar>
+                    <Nav className="me-auto" id="navbar" navbar>
+                        <NavItem >
+                            <NavLink className="btn-menu" onClick={redirectHome}>Home</NavLink>
+                        </NavItem>
+                        {user.perfil === "admin" &&
+                            <>
+                                <NavItem >
+                                    <NavLink className="btn-menu" onClick={redirectPerfil}>Perfil</NavLink>
+                                </NavItem>
+                                <NavItem >
+                                    <NavLink className="btn-menu" onClick={redirectAdicionarVacina} >Vacinas</NavLink>
+                                </NavItem>
+                            </>
+                        }
+                        <NavItem >
+                            <NavLink className="btn-menu" onClick={redirectDados}>Seus dados</NavLink>
+                        </NavItem>
+                        <NavItem >
+                            <NavLink className="btn-menu" onClick={redirectAdicionarRegistro}>Registros</NavLink>
+                        </NavItem>
+                        <NavItem >
+                            <NavLink className="btn-menu" onClick={logout}>Logout</NavLink>
+                        </NavItem>
+                    </Nav>
+                </Collapse>
+            </Navbar>
+        </div>
     )
 }
 

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from "react-router-dom";
+import { Form, FormGroup, Label, Input, Button, Alert } from 'reactstrap';
 
 import { useUser } from "./../../providers/user"
 import api from '../../utils/api';
 import "./index.css"
-import Alert from '../../components/alert';
+
+
 
 
 const Login = () => {
@@ -17,7 +19,7 @@ const Login = () => {
     const [usuario, setUsuario] = useState({ senha: "", email: "" })
     const [alertDiv, setAlertDiv] = useState([])
 
-    
+
     const handleChange = (e) => {
         const value = e.target.value;
         setUsuario({
@@ -42,24 +44,31 @@ const Login = () => {
             let errors = []
 
             err.response.data.error.forEach(error => {
-                errors.push(<Alert tema="danger" conteudo={error} />)
+                errors.push(<Alert color="danger">{error}</Alert>)
             })
             setAlertDiv(errors)
         })
     }
 
     return (
-        <div className="container" id="login" >
-            <form id="login-form" onSubmit={handleLogin}>
-                <label for="email">Email</label><br />
-                <input type="email" name="email" value={usuario.email} onChange={handleChange} placeholder="email@email.com" /><br />
-                <label for="senha">Senha</label><br />
-                <input value={usuario.senha} name="senha" onChange={handleChange} type="password" />
-                {alertDiv.map(a => a)}
-                <button className="btn-full primary" type="submit">Entrar</button>
-                <button onClick={redirectCadastro} className="btn-full">Cadastro</button>
-            </form>
+        <div className="container-fluid" id="login" >
 
+            <Form id="login-form" onSubmit={handleLogin}>
+                <FormGroup>
+                    <Label for="email" className="h5">Email</Label>
+                    <Input id="email" value={usuario.email} onChange={handleChange} name="email" placeholder="email@email.com" type="email"/>
+                </FormGroup>
+                <br />
+                <FormGroup>
+                    <Label for="senha" className="h5">Senha</Label>
+                    <Input id="senha" value={usuario.senha} onChange={handleChange} name="senha" type="password"/>
+                </FormGroup>
+                {alertDiv.map(a => a)}
+                <Button block color="primary" type="submit">Entrar</Button>
+                <br />
+                <Button block color="secondary" type="button" onClick={redirectCadastro}>Cadastro</Button>
+
+            </Form>
         </div>
     )
 }

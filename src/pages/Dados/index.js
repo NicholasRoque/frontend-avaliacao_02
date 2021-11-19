@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Menu from '../../components/menu';
-import Alert from './../../components/alert'
+import { Form, FormGroup, Label, Input, Button, Alert, Table, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
 import api from '../../utils/api';
 import "./index.css"
 
@@ -15,12 +16,14 @@ const Dados = () => {
             senha: e.target.senha.value
         }
         await api.put("/usuario/update/senha", data).then((res) => {
-            setAlertDiv([<Alert tema="success" conteudo="Senha atualizada com sucesso." />])
+
+            setAlertDiv([<Alert color="success">Senha atualizada com sucesso.</Alert>])
         }).catch(err => {
             let errors = []
             err.response.data.error.forEach(error => {
-                errors.push(<Alert tema="danger" conteudo={error} />)
+                errors.push(<Alert color="danger">{error}</Alert>)
             })
+            setAlertDiv(errors)
         })
 
     }
@@ -31,13 +34,14 @@ const Dados = () => {
             email: e.target.email.value
         }
         await api.put("/usuario/update/email", data).then((res) => {
-            setAlertDiv([<Alert tema="success" conteudo="Email atualizado com sucesso." />])
-            
+            setAlertDiv([<Alert color="success">Email atualizada com sucesso.</Alert>])
+
         }).catch(err => {
             let errors = []
             err.response.data.error.forEach(error => {
-                errors.push(<Alert tema="danger" conteudo={error} />)
+                errors.push(<Alert color="danger">{error}</Alert>)
             })
+            setAlertDiv(errors)
         })
 
     }
@@ -45,7 +49,7 @@ const Dados = () => {
         <div>
             <Menu />
             <div className="container" id="update-dados" >
-                    <form id="form-update-email" onSubmit={handleUpdateEmail}>
+                {/* <form id="form-update-email" onSubmit={handleUpdateEmail}>
                         <label for="email">Email:</label>
                         <input required name="email" type="email" placeholder="email@email.com" aria-label="Email" aria-describedby="" />
                         <button className="primary" type="submit" id="btn-update-email">Atualizar</button>
@@ -56,7 +60,26 @@ const Dados = () => {
                         <label for="senha">Senha:</label>
                         <input name="senha" required type="password" aria-label="Senha" aria-describedby="" />
                         <button className="primary" type="submit" id="btn-update-senha">Atualizar</button>
-                    </form>
+                    </form> */}
+                <Form id="form-update-email" onSubmit={handleUpdateEmail}>
+                    <FormGroup>
+                        <Label for="email" className="h5">Email:</Label><br />
+                        <Input id="email" name="email" placeholder="email@email.com" type="email" />
+                    </FormGroup>
+                    <br />
+                    <Button block color="primary" type="submit">Atualizar</Button>
+                </Form>
+                <hr id="linhaSeparadora"/>
+                <br /><br />
+                <Form id="form-update-senha" onSubmit={handleUpdateSenha}>
+                    <FormGroup>
+                        <Label for="senha" className="h5">Senha:</Label><br />
+                        <Input id="senha" name="senha" type="password" />
+                    </FormGroup>
+                    <br />
+                    <Button block color="primary" type="submit">Atualizar</Button>
+                </Form>
+                <br />
                 {alertDiv.map(a => a)}
 
             </div>

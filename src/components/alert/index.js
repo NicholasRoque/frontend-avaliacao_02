@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import "./index.css"
+import { Alert as AlertStrap } from 'reactstrap';
+
 
 const Alert = (props) => {
     useEffect(() => {
@@ -17,13 +19,13 @@ const Alert = (props) => {
                 document.getElementById("alert").classList.add('info')
                 break;
         }
-    }, [])
+    }, [props.tema])
 
 
     return (
-        <div id="alert" className="alert">
+        <AlertStrap id="alert" className="alert">
             {props.conteudo}
-        </div>
+        </AlertStrap>
     )
 }
 
