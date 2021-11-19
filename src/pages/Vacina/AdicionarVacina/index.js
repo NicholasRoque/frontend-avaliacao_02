@@ -143,21 +143,7 @@ const AdicionarVacina = () => {
                 </Table>
                 <br />
                 <br />
-                {/* <div className="modal">
-                        <div className="modal-content">
-                            <span>
-                                Atualizar Vacina
-                                <span onClick={handleCloseModalEditarVacina} className="close"><ImCross id="icon" /></span>
-                            </span>
-                            <hr />
-                            <form id="update-vacina-form" onSubmit={handleUpdateVacina}>
-                                <label for="nomeUpdate">Nome da vacina</label>
-                                <input type="text" id="nomeVacinaUpdate" name="nomeUpdate" placeholder="Nome da vacina" />
-                                <button className="btn-full primary" type="submit">Adicionar</button>
-                            </form>
-                        </div>
 
-                    </div> */}
                 {showModalEditarVacina &&
 
 

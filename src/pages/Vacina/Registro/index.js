@@ -153,18 +153,7 @@ const Registro = () => {
         <div>
             <Menu />
             <div className="container" id="adicionar-registro">
-                {/* <form id="adicionar-registro-form" onSubmit={handleAdicionarRegistro}>
-                    <label for="data">Data</label>
-                    <input type="date" name="data" value={registro.nome} onChange={handleChange} placeholder="Data do registro" />
-                    <select aria-label="" name="idVacina" required onChange={handleChange}>
-                        <option disabled selected value="">Selecione uma vacina</option>
-                        {vacinaList.map(vacina => (
-                            <option key={"registro_" + vacina.idVacina} value={vacina.idVacina}>{vacina.nome}</option>
-                        ))}
 
-                    </select>
-                    <button className="primary btn-full" type="submit">Adicionar</button>
-                </form> */}
                 <Form id="adicionar-registro-form" onSubmit={handleAdicionarRegistro}>
                     <FormGroup>
                         <Label for="data" className="h5">Data:</Label><br />
@@ -209,28 +198,7 @@ const Registro = () => {
                         </tbody>
                     </Table>
                 }
-                {/* <div className="modal">
-                        <div className="modal-content">
-                            <span>
-                                Atualizar Registro
-                                <span onClick={handleCloseModalEditarRegistro} className="close"><ImCross id="icon" /></span>
-                            </span>
-                            <hr />
-                            <form id="update-registro-form" onSubmit={handleUpdateRegistro}>
-                                <label for="data">Data</label><br />
-                                <input type="date" name="data" value={registro.data} onChange={handleChange} placeholder="Data do registro" />
-                                <select aria-label="" name="idVacina" onChange={handleChange}>
-                                    <option disabled selected >Selecione uma vacina</option>
-                                    {vacinaList.map(vacina => (
-                                        <option key={"registro_update_" + vacina.idVacina} value={vacina.idVacina}>{vacina.nome}</option>
-                                    ))}
 
-                                </select>
-                                <button className="primary btn-full" type="submit">Salvar</button>
-                            </form>
-                        </div>
-
-                    </div> */}
                 {showModalEditarVacina &&
 
 

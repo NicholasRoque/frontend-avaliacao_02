@@ -43,15 +43,6 @@ const Cadastro = () => {
     return (
         <div className="container" id="cadastro">
 
-            {/* <form id="cadastro-form" onSubmit={handleCadastro}>
-                <label for="email">Email</label><br />
-                <input type="email" name="email" value={usuario.email} onChange={handleChange} placeholder="email@email.com" /><br />
-                <label for="senha">Senha</label><br />
-                <input value={usuario.senha} name="senha" onChange={handleChange} type="password" />
-                {alertDiv.map(a => a)}
-                <button className="btn-full primary" type="submit">Cadastrar</button>
-                <button className="btn-full" onClick={redirectLogin}>Voltar para o login</button>
-            </form> */}
 
             <Form id="cadastro-form" onSubmit={handleCadastro}>
                 <FormGroup>
